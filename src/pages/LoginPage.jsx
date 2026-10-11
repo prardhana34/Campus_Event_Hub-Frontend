@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
-import { Calendar, Eye, EyeOff, Lock, Mail, ArrowRight } from 'lucide-react';
+import { Calendar, Eye, EyeOff, Lock, Mail, ArrowRight, Shield } from 'lucide-react';
+
+const ADMIN_DEMO_EMAIL = 'admin@campus.edu';
+const ADMIN_DEMO_PASSWORD = 'Admin@12345';
 
 export const LoginPage = () => {
   const { login, isAuthenticated, isAdmin } = useAuth();
@@ -20,13 +23,23 @@ export const LoginPage = () => {
   useEffect(() => {
     if (isAuthenticated) {
       if (isAdmin) {
-        navigate('/admin/dashboard', { replace: true });
+        const target = location.state?.from?.pathname?.startsWith('/admin')
+          ? location.state.from.pathname
+          : '/admin/dashboard';
+        navigate(target, { replace: true });
       } else {
         const from = location.state?.from?.pathname || '/dashboard';
         navigate(from, { replace: true });
       }
     }
   }, [isAuthenticated, isAdmin, navigate, location]);
+
+  const handleAdminDemoFill = () => {
+    setEmail(ADMIN_DEMO_EMAIL);
+    setPassword(ADMIN_DEMO_PASSWORD);
+    setError('');
+    showToast('Admin credentials filled! Click Sign In to enter dashboard.', 'info');
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,11 +55,14 @@ export const LoginPage = () => {
       const user = await login(email.trim(), password);
       showToast(`Welcome back, ${user.fullName}!`, 'success');
 
-      if (user.role === 'ROLE_ADMIN') {
-        navigate('/admin/dashboard');
+      if (user.role === 'ROLE_ADMIN' || user.role === 'ADMIN') {
+        const target = location.state?.from?.pathname?.startsWith('/admin')
+          ? location.state.from.pathname
+          : '/admin/dashboard';
+        navigate(target, { replace: true });
       } else {
         const from = location.state?.from?.pathname || '/dashboard';
-        navigate(from);
+        navigate(from, { replace: true });
       }
     } catch (err) {
       const msg = err.response?.data?.message || 'Invalid email or password. Please try again.';
@@ -191,14 +207,33 @@ export const LoginPage = () => {
               </span>
             ) : (
               <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                Sign In to Portal <ArrowRight size={18} />
+                Sign In <ArrowRight size={18} />
               </span>
             )}
           </button>
         </form>
 
+        {/* ONE-CLICK DEMO CREDENTIALS */}
+        <div className="demo-credentials-section">
+          <div className="demo-credentials-title">
+            ONE-CLICK DEMO CREDENTIALS
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <button
+              type="button"
+              id="admin-demo-login-btn"
+              onClick={handleAdminDemoFill}
+              className="btn-demo-admin"
+              title="Click to auto-fill administrator demo credentials (admin@campus.edu)"
+            >
+              <Shield size={17} color="#F59E0B" />
+              <span>Admin Login</span>
+            </button>
+          </div>
+        </div>
+
         <div style={{
-          marginTop: '28px',
+          marginTop: '24px',
           paddingTop: '20px',
           borderTop: '1px solid var(--border)',
           fontSize: '0.9rem',

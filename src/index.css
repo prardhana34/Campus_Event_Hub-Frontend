@@ -561,6 +561,51 @@ p {
 .strength-medium { width: 66%; background: var(--warning); }
 .strength-strong { width: 100%; background: var(--success); }
 
+/* One-Click Demo Credentials */
+.demo-credentials-section {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.demo-credentials-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.btn-demo-admin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 22px;
+  width: 100%;
+  max-width: 220px;
+  background-color: #F8FAFC;
+  border: 1.5px solid #1E293B;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #1E293B;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+}
+
+.btn-demo-admin:hover {
+  background-color: #EEF2F6;
+  border-color: #0F172A;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.09);
+}
+
+.btn-demo-admin:active {
+  transform: translateY(0);
+}
+
 /* Grid Helpers */
 .grid-2 {
   display: grid;
