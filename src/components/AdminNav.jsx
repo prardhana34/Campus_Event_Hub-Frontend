@@ -93,11 +93,11 @@ export const AdminNav = ({ title, subtitle, actionButton }) => {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
             <Link 
-              to="/events" 
+              to="/" 
               className="btn btn-outline btn-sm"
               target="_blank"
               rel="noreferrer"
-              title="Open public events view in new tab"
+              title="Open public portal in new tab"
             >
               <span>View Public Portal</span>
               <ExternalLink size={14} />
